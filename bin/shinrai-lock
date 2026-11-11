@@ -4,7 +4,8 @@
 # hyprlock draws in the screen's real pixels and ignores Hyprland's scale, so
 # ~/.config/hypr/hyprlock.conf is written for scale 1 and multiplies every
 # size by its $scale. This reads the scale of the monitor you're on and, if it
-# isn't 1, hands hyprlock a copy of that file with $scale set to it.
+# isn't 1, hands hyprlock a copy of that file with $scale set to it (and
+# $line, the outline width, set to the scale rounded to whole pixels).
 #
 # Everything locks through here: Super + L, the island's Lock and the idle
 # timer all run `loginctl lock-session`, and hypridle answers with this.
@@ -20,8 +21,10 @@ case "$scale" in
     "" | 0 | 1) exec hyprlock "$@" ;;
 esac
 
+line=$(awk -v s="$scale" 'BEGIN { l = int(s + 0.5); print (l < 1 ? 1 : l) }')
 copy="${XDG_RUNTIME_DIR:-/tmp}/shinrai-hyprlock.conf"
-if sed 's/^\$scale *=.*/$scale = '"$scale"'/' "$conf" > "$copy"; then
+if sed -e 's/^\$scale *=.*/$scale = '"$scale"'/' \
+       -e 's/^\$line *=.*/$line = '"$line"'/' "$conf" > "$copy"; then
     exec hyprlock -c "$copy" "$@"
 fi
 exec hyprlock "$@"

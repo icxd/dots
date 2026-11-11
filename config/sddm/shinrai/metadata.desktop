@@ -1,6 +1,6 @@
 [SddmGreeterTheme]
 Name=shinrai
-Description=The shinrai desktop's login screen: the wallpaper and the white island
+Description=The shinrai desktop's login screen: the wallpaper and the dark island
 Type=sddm-theme
 Version=1.0
 MainScript=Main.qml

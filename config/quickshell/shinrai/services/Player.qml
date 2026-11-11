@@ -91,7 +91,7 @@ Singleton {
         onTriggered: root.lingering = false
     }
 
-    // The cover's most colorful shade, darkened enough to read on white.
+    // The cover's most colorful shade, lightened enough to read on the dark island.
     // The color sampler reads local files only, so streamed covers (Spotify's
     // are https) are saved to ~/.cache first.
     property string localArt: ""
@@ -134,7 +134,7 @@ Singleton {
 
     readonly property color tint: {
         let best = null;
-        let bestSat = 0.28;   // greys and near-greys stay black
+        let bestSat = 0.28;   // greys and near-greys get the purple
         for (const c of Array.from(quantizer.colors ?? [])) {
             const sat = c.hslSaturation * Math.min(1, c.hslLightness * 3);
             if (sat > bestSat) {
@@ -142,8 +142,9 @@ Singleton {
                 best = c;
             }
         }
-        if (!best) return "#0b0b0c";
-        return Qt.hsla(best.hslHue, Math.min(0.85, best.hslSaturation), Math.min(0.42, Math.max(0.28, best.hslLightness)), 1);
+        if (!best) return Theme.accent;
+        // light enough to read on the dark island
+        return Qt.hsla(best.hslHue, Math.min(0.8, best.hslSaturation), Math.min(0.76, Math.max(0.64, best.hslLightness)), 1);
     }
 
     // Seconds into the song, right now (cheap; call it every frame if you like).

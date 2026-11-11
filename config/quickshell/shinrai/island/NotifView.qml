@@ -141,7 +141,7 @@ Reveal {
                 width: parent.width
                 visible: text !== ""
                 text: root.app
-                color: Theme.inkSoft
+                color: Theme.accent
                 font.pixelSize: 11
                 font.weight: Font.Medium
             }

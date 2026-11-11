@@ -10,7 +10,7 @@ Item {
     property int bars: 5
     property real barWidth: 3
     property real gap: 2.5
-    property color color: Theme.ink
+    property color color: Theme.accent
     property bool live: Player.playing
 
     implicitWidth: bars * barWidth + (bars - 1) * gap

@@ -18,10 +18,10 @@ mono_option = average
 
 [color]
 gradient = 1
-gradient_color_1 = '#3f3f46'
-gradient_color_2 = '#71717a'
-gradient_color_3 = '#d4d4d8'
-gradient_color_4 = '#ffffff'
+gradient_color_1 = '#3b2a52'
+gradient_color_2 = '#6a4691'
+gradient_color_3 = '#b287e3'
+gradient_color_4 = '#e6d9f7'
 
 [smoothing]
 noise_reduction = 77

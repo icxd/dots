@@ -8,7 +8,7 @@ import qs.config
 import qs.services
 import qs.components
 
-// The island on one monitor: a white shape at the top middle that changes
+// The island on one monitor: a dark shape at the top middle that changes
 // into whatever it needs to be. Every monitor has one. The clock and music
 // show on all of them; the launcher, power view, notifications and volume on
 // the monitor you're on (or whose island you clicked); the workspace dots on
@@ -249,6 +249,22 @@ PanelWindow {
             id: power
             shown: win.view === "power"
         }
+    }
+
+    // A faint purple hairline round the island, so the dark shape keeps its
+    // outline over the dark wallpaper and dark windows. Drawn on top rather
+    // than as the shape's own border, which would shrink the content inside.
+    Rectangle {
+        x: shape.x
+        y: shape.y
+        width: shape.width
+        height: shape.height
+        radius: shape.radius
+        color: "transparent"
+        border.width: 1
+        border.color: Theme.edge
+        antialiasing: true
+        opacity: shape.opacity
     }
 
     // ---- clicks ----

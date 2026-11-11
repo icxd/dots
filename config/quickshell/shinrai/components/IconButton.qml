@@ -2,7 +2,8 @@ import QtQuick
 import qs.config
 
 // A glyph you can click. A soft circle swells in behind it on hover, and it
-// dips a little when pressed. `active` puts a small dot under it (shuffle on).
+// dips a little when pressed. `active` turns it purple with a small dot under
+// it (shuffle on).
 Item {
     id: root
 
@@ -35,12 +36,13 @@ Item {
         anchors.centerIn: parent
         icon: root.icon
         size: root.size
-        color: root.color
+        color: root.active ? Theme.accent : root.color
         opacity: root.dim ? 0.3 : 1
         scale: area.pressed && !root.dim ? 0.86 : 1
 
         Behavior on scale { NumberAnimation { duration: 160; easing.type: Easing.OutCubic } }
         Behavior on opacity { NumberAnimation { duration: 200 } }
+        Behavior on color { ColorAnimation { duration: 180 } }
     }
 
     Rectangle {
@@ -49,7 +51,7 @@ Item {
         width: 4
         height: 4
         radius: 2
-        color: root.color
+        color: Theme.accent
         opacity: root.active ? 1 : 0
         scale: root.active ? 1 : 0.2
 

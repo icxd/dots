@@ -13,7 +13,7 @@ Text {
 
     signal clicked()
 
-    color: area.containsMouse && clickable ? "#e6ffffff" : "#66ffffff"
+    color: area.containsMouse && clickable ? "#b287e3" : "#8ca097aa"
     font.family: glyph ? glyphFont : textFont
     font.pixelSize: Math.round((glyph ? 15 : 12.5) * s)
 

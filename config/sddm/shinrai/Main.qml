@@ -3,7 +3,7 @@ import QtQuick
 // shinrai · SDDM login screen
 //
 // The same picture as the desktop and the lock screen: the wallpaper, and the
-// white island at the top showing the time. Type your password and the island
+// dark island at the top showing the time. Type your password and the island
 // fills with dots; Enter logs you in. A wrong password shakes it and says so.
 //
 //   Enter  log in · Esc  clear · Tab  next user (if there are several)
@@ -20,7 +20,7 @@ Rectangle {
 
     width: 1720
     height: 720
-    color: "#000000"
+    color: "#0a0512"   // the wallpaper's own background
 
     readonly property real s: Math.max(0.5, Number(config.scale) || 1)
     readonly property string font: "Inter"
@@ -207,17 +207,23 @@ Rectangle {
             width: islandWidth.value
             height: 32 * root.s
             radius: height / 2
-            color: root.mode === "checking" ? "#e4e4e7" : keyboard.capsLock ? "#e9e9ec" : "#ffffff"
+            color: root.mode === "checking" ? "#211a28" : keyboard.capsLock ? "#2a1d39" : "#130e18"
+            // a faint purple hairline that lights up for caps lock and a wrong password
+            border.width: Math.max(1, Math.round(root.s))
+            border.color: root.mode === "failed" || root.mode === "message" ? "#b287e3"
+                        : keyboard.capsLock ? "#ccb287e3"
+                        : root.mode === "checking" ? "#66b287e3" : "#29b287e3"
             clip: true
             transform: Translate { id: nudge }
 
             Behavior on color { ColorAnimation { duration: 200 } }
+            Behavior on border.color { ColorAnimation { duration: 200 } }
 
             Text {
                 id: time
                 anchors.centerIn: parent
                 text: Qt.formatTime(root.now, "HH:mm")
-                color: "#0b0b0c"
+                color: "#efeaf5"
                 font.family: root.font
                 font.pixelSize: Math.round(14 * root.s)
                 font.weight: Font.DemiBold
@@ -242,7 +248,7 @@ Rectangle {
                         width: 7 * root.s
                         height: width
                         radius: width / 2
-                        color: "#0b0b0c"
+                        color: "#b287e3"
                         NumberAnimation on scale { from: 0.2; to: 1; duration: 220; easing.type: Easing.OutBack }
                     }
                 }
@@ -253,7 +259,7 @@ Rectangle {
                 anchors.centerIn: parent
                 width: Math.min(implicitWidth, root.width * 0.6 - 52 * root.s)
                 text: root.mode === "message" ? root.message : "Wrong password"
-                color: "#0b0b0c"
+                color: "#b287e3"
                 font.family: root.font
                 font.pixelSize: Math.round(13 * root.s)
                 font.weight: Font.DemiBold
@@ -279,7 +285,7 @@ Rectangle {
             anchors.horizontalCenter: parent.horizontalCenter
             y: 49 * root.s
             text: Qt.formatDate(root.now, "dddd d MMMM")
-            color: "#8cffffff"
+            color: "#a097aa"
             font.family: root.font
             font.pixelSize: Math.round(12 * root.s)
         }

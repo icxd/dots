@@ -1,6 +1,6 @@
 # shinrai · 信頼
 
-A black-and-white Hyprland desktop for **Arch Linux + Hyprland 0.57+**. There's no bar: one white island at the top middle does everything, like the notch on a Mac or the Dynamic Island on an iPhone.
+A dark violet Hyprland desktop with purple accents, for **Arch Linux + Hyprland 0.57+**. There's no bar: one dark island at the top middle does everything, like the notch on a Mac or the Dynamic Island on an iPhone.
 
 ![the island in its different shapes](preview.png)
 
@@ -18,7 +18,9 @@ A black-and-white Hyprland desktop for **Arch Linux + Hyprland 0.57+**. There's 
 
 Every change of shape runs on spring physics, and new content fades in with a short blur (on real hardware). Changes that interrupt each other blend together instead of starting over.
 
-The wallpaper (`wallpaper.png`) is your picture placed on pure black at 3440×1440. The art keeps the same size on other screen shapes.
+The island is near-black with light text and a faint purple outline. The wallpaper's purple marks whatever is on or chosen: the sliders, the play button, the launcher's tab and highlighted row, the current workspace, shuffle and repeat when they're on, and a power button waiting for you to confirm.
+
+The wallpaper (`wallpaper.png`, 2000×1125) is two hands reaching for each other, drawn in purple ASCII on a dark violet. It fills each screen; on screens wider than 16:9 the top and bottom are cropped, and the hands stay in view. At 2000 pixels wide it looks a little soft on bigger screens.
 
 ---
 
@@ -31,13 +33,13 @@ The wallpaper (`wallpaper.png`) is your picture placed on pure black at 3440×14
 | Music | Spotify Soloist in the background (searched and played from the launcher), or any MPRIS player (Spotify app, Firefox, mpv, …) |
 | Waveform | cava |
 | Clipboard history | cliphist |
-| Terminal | kitty, pure black, with a gliding cursor |
-| Editor | Neovim 0.12 with a monochrome colorscheme of its own; plugins optional, through its built-in `vim.pack` |
-| System info | fastfetch: small, with a sliver of the wallpaper as its logo |
+| Terminal | kitty, on the wallpaper's dark violet, with a purple gliding cursor |
+| Editor | Neovim 0.12 with a colorscheme of its own (violet greys, purple keywords); plugins optional, through its built-in `vim.pack` |
+| System info | fastfetch: small, with the wallpaper's two fingertips as its logo |
 | Lock / idle | hyprlock / hypridle |
 | Login screen | SDDM, with the shinrai theme |
 | Fonts | Inter (island), JetBrainsMono Nerd Font (terminal, icons) |
-| Shell | zsh with a `~ ›` prompt, greys only |
+| Shell | zsh with a `~ ›` prompt, violet greys and a purple arrow |
 
 All packages are in the official Arch repos. The exception is Spotify Soloist, which the installer downloads from Spotify.
 
@@ -150,9 +152,9 @@ Apps you open often move to the top.
 
 ## Terminal, shell and editor
 
-Everything is black and grey like the desktop. Muted color shows up only where it means something: errors, warnings, git changes.
+Everything sits on the wallpaper's dark violet in violet-tinted greys, with the island's purple for the cursor, selections, the current tab, folders and keywords. Softer colors show up only where they mean something: errors, warnings, git changes.
 
-**kitty**: a thin beam cursor that breathes and glides when it jumps, a little extra line spacing, and tabs only when there are two or more (the current one is a white pill).
+**kitty**: a thin beam cursor that breathes and glides when it jumps, a little extra line spacing, and tabs only when there are two or more (the current one is a purple pill).
 
 | | |
 |---|---|
@@ -161,9 +163,9 @@ Everything is black and grey like the desktop. Muted color shows up only where i
 | `ctrl+shift+z` | zoom the current split |
 | `ctrl+shift+t` | new tab |
 
-**zsh**: the prompt is `~/dots main ›`: path, git branch, and an arrow that turns grey after a failed command. What you type is shaded as you go (commands white, arguments softer, mistakes muted red), with suggestions from history in dark grey (`→` takes one). `↑ ↓` search history for what you've typed. `ls`, `ll`, `la` and `tree` go through eza in the same greys, and man pages open in Neovim.
+**zsh**: the prompt is `~/dots main ›`: path, git branch in dim purple, and a purple arrow that turns grey after a failed command. What you type is shaded as you go (commands white, keywords purple, arguments softer, mistakes soft red), with suggestions from history in dark grey (`→` takes one). `↑ ↓` search history for what you've typed. `ls`, `ll`, `la` and `tree` go through eza with folders in purple, and man pages open in Neovim.
 
-**Neovim**: everything below is built into Neovim 0.12, so it works with no plugins at all. The mode sits in a small white pill in the statusline.
+**Neovim**: everything below is built into Neovim 0.12, so it works with no plugins at all. The mode sits in a small purple pill in the statusline.
 
 | | |
 |---|---|
@@ -295,7 +297,7 @@ The lock screen fits itself to the scale of the screen you're on. The login scre
 - **Keys do nothing** (`Super + Space` etc.): those keys reach the island through Quickshell's global shortcuts, so the shell has to be running. `hyprctl globalshortcuts` should list `shinrai:launcher`, `shinrai:music`, `shinrai:clipboard` and `shinrai:power`.
 - **No notifications:** another daemon may own them. `busctl --user status org.freedesktop.Notifications` shows which program has the name; it should be `qs`. Remove the other one (`sudo pacman -Rns mako`) and restart the shell with `Super + Shift + R`.
 - **The waveform doesn't move:** it moves only while music plays, and needs `cava` installed. Without cava it uses a gentle made-up motion instead.
-- **Waveform tint stays black:** the island takes it from the cover's colors. A cover that's mostly grey stays black, and it needs `curl` for streamed covers.
+- **Waveform tint stays purple:** the island takes it from the cover's colors. A cover that's mostly grey keeps the purple, and it needs `curl` for streamed covers.
 - **Music mode:** the first row in the launcher says what's missing.
   - *"The player isn't running":* `systemctl --user status soloist` and `journalctl --user -u soloist`. Exit code 78 means there's no `SOLOIST_API_KEY` in `spotify.env` yet.
   - *"Pair the player once":* pick **Shinrai** in a Spotify app's device list.
@@ -321,7 +323,7 @@ To remove the music player: `systemctl --user disable --now soloist`, then delet
 
 ```
 install.sh                installer
-wallpaper.png             the wallpaper (3440×1440)
+wallpaper.png             the wallpaper (2000×1125)
 preview.png               the picture at the top of this README
 bin/
   shinrai-shell           starts the shell (software rendering inside VMs)

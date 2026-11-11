@@ -1,5 +1,5 @@
 -- shinrai · Hyprland (Lua config, Hyprland 0.57+)
--- A black desktop with one white island at the top (Quickshell, see
+-- A dark violet desktop with one dark island at the top (Quickshell, see
 -- ~/.config/quickshell/shinrai). Wiki: https://wiki.hypr.land/
 --
 -- Check this file without starting a session:
@@ -82,9 +82,10 @@ hl.env("ELECTRON_OZONE_PLATFORM_HINT", "auto")
 ---- LOOK AND FEEL ----
 -----------------------
 
--- Black and white. Windows get a hairline white border when focused and
--- nearly none otherwise. No blur: there's nothing behind them but black,
--- and it's expensive inside a VM.
+-- Dark violet, with the wallpaper's purple as the accent. Windows get a
+-- hairline purple border when focused and a faint one otherwise. No blur:
+-- there's nothing behind them but the dark wallpaper, and it's expensive
+-- inside a VM.
 hl.config({
     general = {
         gaps_in  = 5,
@@ -93,8 +94,8 @@ hl.config({
         border_size = 1,
 
         col = {
-            active_border   = "rgba(ffffff66)",
-            inactive_border = "rgba(ffffff14)",
+            active_border   = "rgba(b287e399)",
+            inactive_border = "rgba(b287e31a)",
         },
 
         resize_on_border = true,
@@ -132,7 +133,7 @@ hl.config({
     misc = {
         force_default_wallpaper = 0,   -- Quickshell draws the wallpaper
         disable_hyprland_logo   = true,
-        background_color        = 0xff000000,
+        background_color        = 0xff0a0512,   -- the wallpaper's own background
     },
 })
 

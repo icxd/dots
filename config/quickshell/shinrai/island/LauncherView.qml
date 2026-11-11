@@ -422,6 +422,7 @@ Reveal {
                     anchors.centerIn: parent
                     icon: root.modeGlyphs[index]
                     size: 18
+                    color: Theme.accent
                     opacity: root.mode === modelData ? 1 : 0
                     scale: root.mode === modelData ? 1 : 0.6
 
@@ -439,8 +440,8 @@ Reveal {
             color: Theme.ink
             font.family: Theme.font
             font.pixelSize: 16
-            selectionColor: Theme.ink
-            selectedTextColor: Theme.island
+            selectionColor: Theme.accent
+            selectedTextColor: Theme.accentInk
             selectByMouse: true
             clip: true
             focus: true
@@ -471,7 +472,7 @@ Reveal {
             Behavior on opacity { NumberAnimation { duration: 160 } }
         }
 
-        // mode switch: a black pill slides to the chosen one
+        // mode switch: a purple pill slides to the chosen one
         Item {
             id: chips
             anchors.right: parent.right
@@ -504,7 +505,7 @@ Reveal {
                 width: markW.value
                 height: parent.height
                 radius: height / 2
-                color: Theme.ink
+                color: Theme.accent
             }
 
             Row {
@@ -525,7 +526,7 @@ Reveal {
                             id: chipLabel
                             anchors.centerIn: parent
                             text: root.modeNames[modelData]
-                            color: root.mode === modelData ? Theme.island : chipArea.containsMouse ? Theme.ink : Theme.inkSoft
+                            color: root.mode === modelData ? Theme.accentInk : chipArea.containsMouse ? Theme.ink : Theme.inkSoft
                             font.pixelSize: 12
                             font.weight: Font.Medium
                             Behavior on color { ColorAnimation { duration: 160 } }
@@ -585,7 +586,7 @@ Reveal {
             height: root.rowHeight
             y: markY.value
             radius: 14
-            color: Theme.fill
+            color: Theme.accentFill
             opacity: list.currentItem && list.currentItem.selectable ? 1 : 0
             Behavior on opacity { NumberAnimation { duration: 120 } }
         }
@@ -729,7 +730,7 @@ Reveal {
                     anchors.verticalCenter: parent.verticalCenter
                     icon: Icons.enter
                     size: 14
-                    color: Theme.inkSoft
+                    color: Theme.accent
                     opacity: row.current && row.selectable ? 1 : 0
                     Behavior on opacity { NumberAnimation { duration: 140 } }
                 }

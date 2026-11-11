@@ -3,7 +3,7 @@ import Quickshell.Wayland
 import QtQuick
 import qs.config
 
-// The wallpaper, behind everything, on pure black. It fades in when the
+// The wallpaper, behind everything, on its own dark violet. It fades in when the
 // shell starts and when `shinrai-wall` swaps it.
 PanelWindow {
     id: root
@@ -18,7 +18,7 @@ PanelWindow {
         right: true
     }
     exclusionMode: ExclusionMode.Ignore
-    color: "#000000"
+    color: Theme.desktop
 
     WlrLayershell.layer: WlrLayer.Background
     WlrLayershell.namespace: "shinrai-wallpaper"

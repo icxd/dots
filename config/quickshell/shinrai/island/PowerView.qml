@@ -210,7 +210,7 @@ Reveal {
                 Rectangle {
                     anchors.fill: parent
                     radius: width / 2
-                    color: Theme.ink
+                    color: Theme.accent
                     scale: miniPlay.pressed ? 0.9 : miniPlay.containsMouse ? 1.06 : 1
                     Behavior on scale { NumberAnimation { duration: 200; easing.type: Easing.OutCubic } }
                 }
@@ -220,7 +220,7 @@ Reveal {
                     width: 14
                     height: 14
                     playing: Player.playing
-                    color: Theme.island
+                    color: Theme.accentInk
                 }
 
                 MouseArea {
@@ -313,7 +313,7 @@ Reveal {
                     width: 48
                     height: 48
                     radius: 24
-                    color: button.armed ? Theme.ink : button.lit ? Theme.fillStrong : Theme.fill
+                    color: button.armed ? Theme.accent : button.lit ? Theme.fillStrong : Theme.fill
                     scale: area.pressed ? 0.92 : button.armed ? 1.06 : 1
 
                     Behavior on color { ColorAnimation { duration: 160 } }
@@ -323,7 +323,7 @@ Reveal {
                         anchors.centerIn: parent
                         icon: button.modelData.glyph
                         size: 19
-                        color: button.armed ? Theme.island : Theme.ink
+                        color: button.armed ? Theme.accentInk : Theme.ink
                         Behavior on color { ColorAnimation { duration: 160 } }
                     }
                 }

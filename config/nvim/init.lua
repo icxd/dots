@@ -1,6 +1,6 @@
 -- shinrai · Neovim (0.12+)
 --
--- Minimal and monochrome. Everything here is built into Neovim; plugins are
+-- Minimal, in greys and purple. Everything here is built into Neovim; plugins are
 -- optional and go in lua/plugins.lua (Neovim's own vim.pack manages them).
 --
 --   Space f   find a file (fuzzy, as you type)   Space b   switch buffer
@@ -85,7 +85,7 @@ function _G.shinrai_statusline()
     if not dir then dir, file = "", path end
 
     local out = {
-        -- the mode, in a small white pill like the island
+        -- the mode, in a small purple pill like the launcher's tabs
         "%#ShinraiModeEdge#\u{e0b6}%#ShinraiMode#", label, "%#ShinraiModeEdge#\u{e0b4}",
         "  %#ShinraiDim#", escape(dir), "%#ShinraiFile#", escape(file),
         vim.bo.modified and "%#ShinraiSoft# ●" or "",

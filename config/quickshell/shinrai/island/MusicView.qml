@@ -89,7 +89,7 @@ Reveal {
         height: root.mix(14, 22)
         x: root.width - root.mix(13, 22) - width
         y: root.mix((root.strip - height) / 2, 25)
-        color: Config.tintWaveform ? Player.tint : Theme.ink
+        color: Config.tintWaveform ? Player.tint : Theme.accent
     }
 
     // ---- small: the song's name ----
@@ -233,7 +233,7 @@ Reveal {
                 Rectangle {
                     anchors.fill: parent
                     radius: width / 2
-                    color: Theme.ink
+                    color: Theme.accent
                     scale: playArea.pressed ? 0.9 : playArea.containsMouse ? 1.06 : 1
                     Behavior on scale { NumberAnimation { duration: 200; easing.type: Easing.OutCubic } }
                 }
@@ -243,7 +243,7 @@ Reveal {
                     width: 17
                     height: 17
                     playing: Player.playing
-                    color: Theme.island
+                    color: Theme.accentInk
                 }
 
                 MouseArea {

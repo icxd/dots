@@ -1,7 +1,7 @@
 import QtQuick
 import qs.config
 
-// A thin rounded track with a black fill: the song's progress, the volume.
+// A thin rounded track with a purple fill: the song's progress, the volume.
 // Click or drag to set it; it thickens a little under the mouse.
 Item {
     id: root
@@ -42,7 +42,7 @@ Item {
             width: Math.max(0, Math.min(track.width, track.width * root.shown))
             height: track.height
             radius: track.radius
-            color: Theme.ink
+            color: Theme.accent
             visible: root.shown > 0.001
         }
     }

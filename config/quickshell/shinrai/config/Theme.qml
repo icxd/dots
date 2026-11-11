@@ -3,16 +3,26 @@ pragma Singleton
 import Quickshell
 import QtQuick
 
-// Colors, type and sizes. Black and white only: a white island on a black
-// desktop, with black ink on the island.
+// Colors, type and sizes. A dark island on the dark violet wallpaper, light
+// ink on it, and the wallpaper's purple for the few things that are "on":
+// the sliders, the play button, the chosen tab, the current workspace.
 Singleton {
+    // ---- desktop ----
+    readonly property color desktop:    "#0a0512"   // the wallpaper's background, shown while it loads
+
     // ---- island ----
-    readonly property color island:     "#ffffff"
-    readonly property color ink:        "#0b0b0c"   // main text and icons
-    readonly property color inkSoft:    "#6e6e73"   // secondary text
-    readonly property color inkFaint:   "#aeaeb2"   // placeholders, hints
-    readonly property color fill:       "#f2f2f4"   // hover, selection
-    readonly property color fillStrong: "#e4e4e7"   // pressed, slider tracks
+    readonly property color island:     "#130e18"
+    readonly property color edge:       Qt.rgba(accent.r, accent.g, accent.b, 0.16)   // hairline round the island
+    readonly property color ink:        "#efeaf5"   // main text and icons
+    readonly property color inkSoft:    "#a097aa"   // secondary text
+    readonly property color inkFaint:   "#655e6e"   // placeholders, hints
+    readonly property color fill:       "#211a28"   // hover
+    readonly property color fillStrong: "#2d2537"   // pressed, slider tracks
+
+    // ---- purple (the wallpaper's hue, brightened to read on the island) ----
+    readonly property color accent:     "#b287e3"
+    readonly property color accentInk:  "#110b19"   // text and icons on accent
+    readonly property color accentFill: "#2a1d39"   // the highlighted row in lists
 
     // ---- type ----
     readonly property string font:  "Inter"

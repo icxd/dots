@@ -1,9 +1,11 @@
--- shinrai · a monochrome colorscheme for Neovim
+-- shinrai · greys and purple for Neovim
 --
--- The same greys as kitty and the desktop. Syntax is told apart by brightness
--- and weight, not hue: keywords bold white, functions bright, strings a softer
--- grey, comments dim and italic. Muted tints appear only where they carry
--- meaning: errors, warnings, git changes.
+-- The same colors as kitty and the desktop: violet-tinted greys, and the
+-- wallpaper's purple for keywords and for whatever is current (the cursor
+-- line's number, the mode, the chosen item, search matches, folders). The
+-- rest is told apart by brightness and weight: functions bright, strings a
+-- softer grey, comments dim and italic. Soft tints appear only where they
+-- carry meaning: errors, warnings, git changes.
 
 vim.cmd.highlight("clear")
 if vim.g.syntax_on then vim.cmd.syntax("reset") end
@@ -11,27 +13,30 @@ vim.o.background = "dark"
 vim.g.colors_name = "shinrai"
 
 local c = {
-    bg      = "#000000",   -- same as kitty
-    bg1     = "#0b0b0c",   -- cursor line
-    bg3     = "#1f1f22",   -- selection, popup selection
-    line    = "#27272a",   -- borders, separators
-    faint   = "#3f3f46",   -- line numbers, invisible characters
-    dim     = "#52525b",   -- comments
-    mute    = "#71717a",   -- punctuation, operators
-    soft    = "#a1a1aa",   -- strings
-    mid     = "#d4d4d8",   -- types, constants
-    fg      = "#e4e4e7",   -- text
-    bright  = "#fafafa",   -- keywords, functions
+    bg      = "#0a0512",   -- same as kitty and the wallpaper
+    bg1     = "#120c19",   -- cursor line
+    bg3     = "#241a31",   -- popup selection, references
+    line    = "#271f30",   -- borders, separators
+    faint   = "#3d3447",   -- line numbers, invisible characters
+    dim     = "#5a5266",   -- comments
+    mute    = "#77707f",   -- punctuation, operators
+    soft    = "#a59db0",   -- strings
+    mid     = "#d3cddb",   -- types, constants
+    fg      = "#e6e1ec",   -- text
+    bright  = "#f6f3fa",   -- functions
     white   = "#ffffff",
-    -- muted tints, only where meaning needs them
-    red     = "#d4a5a5",
-    yellow  = "#d6c9a5",
-    green   = "#a8c4a8",
-    blue    = "#a5b4d4",
-    red_bg    = "#1a0f0f",
-    yellow_bg = "#1a170f",
-    green_bg  = "#0f1a10",
-    blue_bg   = "#0f121a",
+    -- the accent, from the wallpaper
+    purple    = "#b287e3",   -- keywords, the current thing
+    purple_bg = "#2a1d39",   -- visual selection, search matches
+    -- soft tints, only where meaning needs them
+    red     = "#e88ea0",
+    yellow  = "#e6c98f",
+    green   = "#9fd4a8",
+    blue    = "#8fb0ee",
+    red_bg    = "#2a1220",
+    yellow_bg = "#261d12",
+    green_bg  = "#122219",
+    blue_bg   = "#121a2b",
 }
 
 local groups = {
@@ -40,33 +45,33 @@ local groups = {
     NormalNC     = { link = "Normal" },
     NormalFloat  = { fg = c.fg, bg = c.bg },
     FloatBorder  = { fg = c.faint, bg = c.bg },
-    FloatTitle   = { fg = c.bright, bg = c.bg, bold = true },
+    FloatTitle   = { fg = c.purple, bg = c.bg, bold = true },
     FloatFooter  = { fg = c.mute, bg = c.bg },
-    Cursor       = { fg = c.bg, bg = c.white },
+    Cursor       = { fg = c.bg, bg = c.purple },
     CursorLine   = { bg = c.bg1 },
     CursorColumn = { bg = c.bg1 },
     ColorColumn  = { bg = c.bg1 },
-    CursorLineNr = { fg = c.bright, bold = true },
+    CursorLineNr = { fg = c.purple, bold = true },
     LineNr       = { fg = c.faint },
     LineNrAbove  = { link = "LineNr" },
     LineNrBelow  = { link = "LineNr" },
     SignColumn   = { bg = c.bg },
     FoldColumn   = { fg = c.faint },
     Folded       = { fg = c.mute, bg = c.bg1 },
-    Visual       = { bg = c.bg3 },
-    VisualNOS    = { bg = c.bg3 },
-    Search       = { fg = c.bg, bg = c.soft },
-    CurSearch    = { fg = c.bg, bg = c.white, bold = true },
+    Visual       = { bg = c.purple_bg },
+    VisualNOS    = { bg = c.purple_bg },
+    Search       = { fg = c.bright, bg = c.purple_bg },
+    CurSearch    = { fg = c.bg, bg = c.purple, bold = true },
     IncSearch    = { link = "CurSearch" },
     Substitute   = { fg = c.bg, bg = c.mid },
-    MatchParen   = { fg = c.white, bold = true, underline = true },
+    MatchParen   = { fg = c.purple, bold = true, underline = true },
     NonText      = { fg = c.faint },
     Whitespace   = { fg = c.line },
     SpecialKey   = { fg = c.faint },
     EndOfBuffer  = { fg = c.bg },
     Conceal      = { fg = c.mute },
-    Directory    = { fg = c.bright, bold = true },
-    Title        = { fg = c.bright, bold = true },
+    Directory    = { fg = c.purple, bold = true },
+    Title        = { fg = c.purple, bold = true },
     WinSeparator = { fg = c.line },
     VertSplit    = { link = "WinSeparator" },
     QuickFixLine = { bg = c.bg3 },
@@ -76,19 +81,19 @@ local groups = {
     StatusLineNC = { fg = c.dim, bg = c.bg },
     TabLine      = { fg = c.mute, bg = c.bg },
     TabLineFill  = { bg = c.bg },
-    TabLineSel   = { fg = c.bg, bg = c.fg, bold = true },
+    TabLineSel   = { fg = c.bg, bg = c.purple, bold = true },
     WinBar       = { fg = c.mute, bg = c.bg },
     WinBarNC     = { fg = c.faint, bg = c.bg },
 
-    -- popup menu: the chosen item inverted, like the island
+    -- popup menu: the chosen item purple, like the launcher's tabs
     Pmenu        = { fg = c.mid, bg = c.bg },
-    PmenuSel     = { fg = c.bg, bg = c.fg, bold = true },
+    PmenuSel     = { fg = c.bg, bg = c.purple, bold = true },
     PmenuKind    = { fg = c.mute, bg = c.bg },
-    PmenuKindSel = { fg = c.bg, bg = c.fg },
+    PmenuKindSel = { fg = c.bg, bg = c.purple },
     PmenuExtra   = { fg = c.dim, bg = c.bg },
-    PmenuExtraSel = { fg = c.bg1, bg = c.fg },
-    PmenuMatch   = { fg = c.white, bold = true },
-    PmenuMatchSel = { fg = c.bg, bg = c.fg, bold = true, underline = true },
+    PmenuExtraSel = { fg = c.bg1, bg = c.purple },
+    PmenuMatch   = { fg = c.purple, bold = true },
+    PmenuMatchSel = { fg = c.bg, bg = c.purple, bold = true, underline = true },
     PmenuSbar    = { bg = c.bg },
     PmenuThumb   = { bg = c.faint },
     PmenuBorder  = { fg = c.faint, bg = c.bg },
@@ -113,7 +118,7 @@ local groups = {
     DiffAdd      = { bg = c.green_bg },
     DiffChange   = { bg = c.blue_bg },
     DiffDelete   = { fg = c.red, bg = c.red_bg },
-    DiffText     = { bg = "#18202e" },
+    DiffText     = { bg = "#1c2740" },
     Added        = { fg = c.green },
     Changed      = { fg = c.blue },
     Removed      = { fg = c.red },
@@ -128,7 +133,7 @@ local groups = {
     Float        = { link = "Number" },
     Identifier   = { fg = c.fg },
     Function     = { fg = c.bright },
-    Statement    = { fg = c.bright, bold = true },
+    Statement    = { fg = c.purple, bold = true },
     Conditional  = { link = "Statement" },
     Repeat       = { link = "Statement" },
     Label        = { link = "Statement" },
@@ -136,7 +141,7 @@ local groups = {
     Exception    = { link = "Statement" },
     Operator     = { fg = c.mute },
     PreProc      = { fg = c.mid },
-    Include      = { fg = c.bright, bold = true },
+    Include      = { fg = c.purple, bold = true },
     Define       = { link = "PreProc" },
     Macro        = { link = "PreProc" },
     PreCondit    = { link = "PreProc" },
@@ -153,7 +158,7 @@ local groups = {
     Underlined   = { underline = true },
     Ignore       = { fg = c.faint },
     Error        = { fg = c.red },
-    Todo         = { fg = c.bg, bg = c.soft, bold = true },
+    Todo         = { fg = c.bg, bg = c.purple, bold = true },
 
     -- ---- treesitter ----
     ["@variable"]            = { fg = c.fg },
@@ -182,7 +187,7 @@ local groups = {
     ["@constructor"]         = { fg = c.bright },
     ["@operator"]            = { link = "Operator" },
     ["@keyword"]             = { link = "Keyword" },
-    ["@keyword.return"]      = { fg = c.white, bold = true },
+    ["@keyword.return"]      = { fg = c.purple, bold = true },
     ["@keyword.import"]      = { link = "Include" },
     ["@punctuation"]         = { fg = c.mute },
     ["@punctuation.delimiter"] = { fg = c.mute },
@@ -196,7 +201,7 @@ local groups = {
     ["@tag"]                 = { link = "Tag" },
     ["@tag.attribute"]       = { fg = c.mid, italic = true },
     ["@tag.delimiter"]       = { fg = c.mute },
-    ["@markup.heading"]      = { fg = c.white, bold = true },
+    ["@markup.heading"]      = { fg = c.purple, bold = true },
     ["@markup.strong"]       = { bold = true },
     ["@markup.italic"]       = { italic = true },
     ["@markup.strikethrough"] = { strikethrough = true },
@@ -247,7 +252,7 @@ local groups = {
     LspReferenceRead  = { bg = c.bg3 },
     LspReferenceWrite = { bg = c.bg3, underline = true },
     LspInlayHint      = { fg = c.dim, italic = true },
-    LspSignatureActiveParameter = { fg = c.white, bold = true, underline = true },
+    LspSignatureActiveParameter = { fg = c.purple, bold = true, underline = true },
     LspCodeLens       = { fg = c.dim },
 
     -- ---- netrw (the file explorer) ----
@@ -264,9 +269,9 @@ local groups = {
 
     -- ---- plugins (lua/plugins.lua) ----
     -- gitsigns: the bars use Added / Changed / Removed; staged ones are dimmer
-    GitSignsStagedAdd          = { fg = "#5c705c" },
-    GitSignsStagedChange       = { fg = "#5c6680" },
-    GitSignsStagedDelete       = { fg = "#806060" },
+    GitSignsStagedAdd          = { fg = "#5f7f66" },
+    GitSignsStagedChange       = { fg = "#5a6b8f" },
+    GitSignsStagedDelete       = { fg = "#8a5a66" },
     GitSignsStagedChangedelete = { link = "GitSignsStagedChange" },
     GitSignsStagedTopdelete    = { link = "GitSignsStagedDelete" },
     GitSignsCurrentLineBlame   = { fg = c.dim, italic = true },
@@ -294,17 +299,17 @@ local groups = {
     OilTrash        = { link = "Removed" },
     OilTrashSourcePath = { fg = c.dim },
 
-    -- mini.pick: a dark panel, the current line inverted like the island
+    -- mini.pick: a dark panel, the current line purple like the launcher
     MiniPickNormal        = { fg = c.mid, bg = c.bg },
     MiniPickBorder        = { fg = c.faint, bg = c.bg },
     MiniPickBorderBusy    = { fg = c.mute, bg = c.bg },
     MiniPickBorderText    = { fg = c.mute, bg = c.bg },
     MiniPickPrompt        = { fg = c.bright, bg = c.bg },
     MiniPickPromptPrefix  = { fg = c.mute, bg = c.bg },
-    MiniPickPromptCaret   = { fg = c.white, bg = c.bg },
-    MiniPickMatchCurrent  = { fg = c.bg, bg = c.fg, bold = true },
+    MiniPickPromptCaret   = { fg = c.purple, bg = c.bg },
+    MiniPickMatchCurrent  = { fg = c.bg, bg = c.purple, bold = true },
     MiniPickMatchMarked   = { fg = c.white, bg = c.bg3 },
-    MiniPickMatchRanges   = { fg = c.white, bold = true },
+    MiniPickMatchRanges   = { fg = c.purple, bold = true },
     MiniPickHeader        = { fg = c.bright, bold = true },
     MiniPickIconDirectory = { fg = c.mute },
     MiniPickIconFile      = { fg = c.dim },
@@ -312,8 +317,8 @@ local groups = {
     MiniPickPreviewRegion = { bg = c.bg3 },
 
     -- ---- the statusline's own pieces (init.lua) ----
-    ShinraiMode     = { fg = c.bg, bg = c.fg, bold = true },
-    ShinraiModeEdge = { fg = c.fg, bg = c.bg },
+    ShinraiMode     = { fg = c.bg, bg = c.purple, bold = true },
+    ShinraiModeEdge = { fg = c.purple, bg = c.bg },
     ShinraiFile     = { fg = c.fg, bg = c.bg, bold = true },
     ShinraiDim      = { fg = c.dim, bg = c.bg },
     ShinraiSoft     = { fg = c.mute, bg = c.bg },
@@ -326,8 +331,8 @@ for name, spec in pairs(groups) do
 end
 
 -- the terminal's 16 colors inside :terminal, same as kitty
-local term = { "#18181b", c.red, c.green, c.yellow, c.blue, "#c4a8d4", "#a5cccc", c.mid,
-               "#52525b", "#e5bcbc", "#bed6be", "#e6dbbd", "#bcc8e5", "#d6bee5", "#bddede", c.bright }
+local term = { "#1d1626", c.red, c.green, c.yellow, c.blue, c.purple, "#8fd0d6", c.mid,
+               c.dim, "#f2a9b7", "#b9e2bf", "#f0dbae", "#adc6f5", "#cbaef0", "#aee0e4", c.bright }
 for i, color in ipairs(term) do
     vim.g["terminal_color_" .. (i - 1)] = color
 end

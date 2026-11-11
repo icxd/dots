@@ -4,7 +4,7 @@ import qs.config
 import qs.components
 
 // Shown for a moment when you switch workspaces: a dot per workspace, the
-// current one stretched into a dash. Workspaces with windows are darker.
+// current one stretched into a purple dash. Workspaces with windows are brighter.
 // With several monitors, the dash is the workspace on this island's monitor.
 Reveal {
     id: root
@@ -45,7 +45,7 @@ Reveal {
                 width: current ? 22 : 7
                 height: 7
                 radius: 3.5
-                color: current ? Theme.ink : used ? Theme.inkSoft : Theme.fillStrong
+                color: current ? Theme.accent : used ? Theme.inkSoft : Theme.fillStrong
 
                 Behavior on width { NumberAnimation { duration: 340; easing.type: Easing.OutCubic } }
                 Behavior on color { ColorAnimation { duration: 220 } }
