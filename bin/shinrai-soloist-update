@@ -1,0 +1,42 @@
+#!/bin/sh
+# shinrai-soloist-update — download the current Spotify Soloist build straight
+# from Spotify, then restart the player if it's running. Builds expire 90 days
+# after they're made; shinrai-soloist runs this by itself when that happens.
+set -eu
+
+case "$(uname -m)" in
+    x86_64)  arch=x86_64 ;;
+    aarch64) arch=arm64 ;;
+    armv7l)  arch=arm32 ;;
+    *) echo "shinrai-soloist-update: Spotify has no Soloist build for $(uname -m)" >&2; exit 1 ;;
+esac
+
+dir="${XDG_DATA_HOME:-$HOME/.local/share}/shinrai/soloist"
+url="https://soloist-builds.spotifycdn.com/soloist_release_$arch.tar.gz"
+tmp=$(mktemp -d)
+trap 'rm -rf "$tmp"' EXIT
+
+echo "downloading $url"
+curl -fL --progress-bar -o "$tmp/soloist.tar.gz" "$url"
+mkdir "$tmp/files"
+tar -xzf "$tmp/soloist.tar.gz" -C "$tmp/files"
+
+exe=$(find "$tmp/files" -type f -name soloist | head -n 1)
+if [ -z "$exe" ]; then
+    echo "shinrai-soloist-update: the download has no soloist executable" >&2
+    exit 1
+fi
+
+# Keep anything that ships next to the executable, and swap the folder in one go.
+mkdir -p "$(dirname "$dir")"
+rm -rf "$dir.new"
+cp -r "$(dirname "$exe")" "$dir.new"
+chmod +x "$dir.new/soloist"
+rm -rf "$dir"
+mv "$dir.new" "$dir"
+"$dir/soloist" --version || true
+
+if [ -z "${SHINRAI_SOLOIST_NO_RESTART:-}" ] && systemctl --user is-active --quiet soloist.service 2>/dev/null; then
+    systemctl --user restart soloist.service
+    echo "restarted soloist.service"
+fi

@@ -1,0 +1,25 @@
+#!/bin/sh
+# shinrai-wall <image> — set the wallpaper (desktop and lock screen).
+# Any format ImageMagick reads; it's stored as ~/.config/shinrai/wallpaper.png.
+# The shell fills the screen with it, cropping the edges if the shape differs.
+set -e
+
+if [ ! -f "${1:-}" ]; then
+    echo "usage: shinrai-wall <image>" >&2
+    exit 1
+fi
+
+dir="${XDG_CONFIG_HOME:-$HOME/.config}/shinrai"
+target="$dir/wallpaper.png"
+mkdir -p "$dir"
+
+# replace the file rather than writing through a symlink into its original
+rm -f "$target"
+case "$(printf '%s' "$1" | tr '[:upper:]' '[:lower:]')" in
+    *.png) cp -- "$1" "$target" ;;
+    *)     magick "$1" "$target" ;;
+esac
+
+qs -c shinrai ipc call wallpaper reload >/dev/null 2>&1 || true
+echo "wallpaper: $target"
+echo "(the login screen gets it the next time you run install.sh)"

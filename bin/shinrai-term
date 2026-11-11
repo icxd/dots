@@ -1,0 +1,8 @@
+#!/bin/sh
+# shinrai-term — start kitty. kitty needs a newer OpenGL than most virtual GPUs
+# offer, so inside a VM it gets Mesa's software renderer. On real hardware this
+# is plain kitty.
+if systemd-detect-virt --quiet --vm 2>/dev/null; then
+    export LIBGL_ALWAYS_SOFTWARE=1
+fi
+exec kitty "$@"

@@ -1,0 +1,19 @@
+# shinrai · Spotify Soloist, the background player behind the launcher's music
+# mode (Super + A). install.sh copies this to ~/.config/systemd/user/ and enables it.
+#   systemctl --user restart soloist     after editing ~/.config/shinrai/spotify.env
+#   journalctl --user -u soloist -f      follow its log
+
+[Unit]
+Description=Spotify Soloist (background player for the shinrai island)
+Wants=pipewire.service wireplumber.service
+After=pipewire.service pipewire-pulse.service wireplumber.service
+
+[Service]
+ExecStart=%h/.local/bin/shinrai-soloist
+Restart=on-failure
+RestartSec=5
+# 78 = no API key in spotify.env yet: wait for you instead of retrying forever
+RestartPreventExitStatus=78
+
+[Install]
+WantedBy=default.target

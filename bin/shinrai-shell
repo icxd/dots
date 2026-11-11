@@ -1,0 +1,29 @@
+#!/bin/sh
+# shinrai-shell — start the desktop shell (wallpaper, island, notifications):
+# `qs -c shinrai`. Extra arguments go to qs, e.g. `shinrai-shell -d` to run it
+# in the background.
+#
+#   shinrai-shell --restart -d   stop every running copy first, then start one
+#
+# Only one copy ever runs: two would draw two islands on top of each other
+# (and `qs kill` stops just one copy at a time, hence the loop below).
+#
+# Inside a VM the virtual GPU usually can't give Quickshell an OpenGL surface
+# ("Could not create EGL surface", and nothing appears), so there it switches
+# to Mesa's software renderer. The island notices and leaves out blur and
+# shadows, which are expensive without a GPU.
+
+if [ "${1:-}" = "--restart" ]; then
+    shift
+    tries=0
+    # qs kill fails once no copy is left
+    while qs kill -c shinrai >/dev/null 2>&1 && [ "$tries" -lt 25 ]; do
+        tries=$((tries + 1))
+        sleep 0.2
+    done
+fi
+
+if systemd-detect-virt --quiet --vm 2>/dev/null; then
+    export LIBGL_ALWAYS_SOFTWARE=1
+fi
+exec qs -c shinrai --no-duplicate "$@"

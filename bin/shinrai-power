@@ -1,0 +1,77 @@
+#!/bin/sh
+# shinrai-power lock | suspend | logout | reboot | poweroff
+# What the island's power view (and the launcher's "lock", "shut down", ...)
+# runs.
+#
+# Log out, restart and shut down first close your apps politely: every window
+# is asked to close, as if you clicked its close button, so a browser saves its
+# session and an editor can ask about unsaved work. Once they're gone (up to 10
+# seconds) it goes ahead. If something stays open (say, a "save changes?"
+# dialog), it stops and tells you instead of killing it: deal with it, then try
+# again.
+#
+# (This used to go through hyprshutdown, but hyprshutdown needs to open a
+# window of its own, which fails inside a VM; it had then already closed
+# everything, and stopped there.)
+
+action="${1:-}"
+case "$action" in
+    lock)     exec loginctl lock-session ;;
+    suspend)  exec systemctl suspend ;;   # hypridle locks the screen first
+    logout)   label="Logging out" ;;
+    reboot)   label="Restarting" ;;
+    poweroff) label="Shutting down" ;;
+    *)
+        echo "usage: shinrai-power lock|suspend|logout|reboot|poweroff" >&2
+        exit 2
+        ;;
+esac
+
+say() {   # say <summary> [body]: a notification (shows in the island)
+    command -v notify-send >/dev/null 2>&1 &&
+        notify-send -a "Session" -t "${3:-4000}" "$1" "${2:-}" >/dev/null 2>&1
+}
+
+# addresses of all open windows
+windows() {
+    hyprctl -j clients 2>/dev/null | grep -o '"address": *"0x[0-9a-fA-F]*"' | grep -o '0x[0-9a-fA-F]*'
+}
+
+# the app names of the windows still open, for the message
+open_apps() {
+    hyprctl -j clients 2>/dev/null | grep -o '"class": *"[^"]*"' | sed 's/.*"\([^"]*\)"$/\1/' |
+        grep -v '^$' | sort -u | paste -sd ',' - | sed 's/,/, /g'
+}
+
+if [ -n "$(windows)" ]; then
+    say "$label" "Closing your apps first" 3000
+    for address in $(windows); do
+        hyprctl dispatch "hl.dsp.window.close({ window = 'address:$address' })" >/dev/null 2>&1
+    done
+
+    tries=0
+    while [ -n "$(windows)" ] && [ "$tries" -lt 40 ]; do
+        sleep 0.25
+        tries=$((tries + 1))
+    done
+
+    if [ -n "$(windows)" ]; then
+        say "Still open: $(open_apps)" "Close it (or answer its question), then try again." 8000
+        exit 1
+    fi
+fi
+
+case "$action" in
+    logout)
+        # Hyprland started through uwsm ("Hyprland (uwsm-managed)" at login)
+        # runs as a systemd unit; uwsm asks to be stopped through uwsm, so the
+        # whole session winds down in order.
+        if command -v uwsm >/dev/null 2>&1 &&
+           systemctl --user is-active -q 'wayland-wm@*.service' 2>/dev/null; then
+            exec uwsm stop
+        fi
+        exec hyprctl dispatch 'hl.dsp.exit()'
+        ;;
+    reboot)   exec systemctl reboot ;;
+    poweroff) exec systemctl poweroff ;;
+esac

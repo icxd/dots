@@ -1,0 +1,27 @@
+#!/bin/sh
+# shinrai-lock — lock the screen with hyprlock, sized for your monitors.
+#
+# hyprlock draws in the screen's real pixels and ignores Hyprland's scale, so
+# ~/.config/hypr/hyprlock.conf is written for scale 1 and multiplies every
+# size by its $scale. This reads the scale of the monitor you're on and, if it
+# isn't 1, hands hyprlock a copy of that file with $scale set to it.
+#
+# Everything locks through here: Super + L, the island's Lock and the idle
+# timer all run `loginctl lock-session`, and hypridle answers with this.
+
+conf="${XDG_CONFIG_HOME:-$HOME/.config}/hypr/hyprlock.conf"
+
+scale=$(hyprctl monitors 2>/dev/null | awk '
+    /^Monitor /     { s = "" }
+    $1 == "scale:"  { s = $2 + 0 }
+    /focused: yes/  { print s; exit }')
+
+case "$scale" in
+    "" | 0 | 1) exec hyprlock "$@" ;;
+esac
+
+copy="${XDG_RUNTIME_DIR:-/tmp}/shinrai-hyprlock.conf"
+if sed 's/^\$scale *=.*/$scale = '"$scale"'/' "$conf" > "$copy"; then
+    exec hyprlock -c "$copy" "$@"
+fi
+exec hyprlock "$@"

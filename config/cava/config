@@ -1,0 +1,27 @@
+; shinrai · cava, for running `cava` (or `vis`) in a terminal.
+; The island's waveform has its own feed in ~/.config/quickshell/shinrai/assets/cava.conf.
+
+[general]
+framerate = 60
+autosens = 1
+bar_width = 2
+bar_spacing = 1
+
+[input]
+method = pipewire
+source = auto
+
+[output]
+method = noncurses
+channels = mono
+mono_option = average
+
+[color]
+gradient = 1
+gradient_color_1 = '#3f3f46'
+gradient_color_2 = '#71717a'
+gradient_color_3 = '#d4d4d8'
+gradient_color_4 = '#ffffff'
+
+[smoothing]
+noise_reduction = 77

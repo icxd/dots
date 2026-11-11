@@ -1,0 +1,38 @@
+#!/bin/sh
+# shinrai-soloist — run Spotify Soloist, Spotify's own player without a window.
+# It plays what you pick in the launcher's music mode (Super + A). The soloist
+# user service starts it at login, so you normally don't run this yourself.
+#
+# Reads SOLOIST_API_KEY (and SOLOIST_DEVICE_NAME) from ~/.config/shinrai/spotify.env.
+# Soloist builds expire after 90 days (exit code 10): then this downloads the
+# current build and starts again.
+
+env_file="${XDG_CONFIG_HOME:-$HOME/.config}/shinrai/spotify.env"
+exe="${XDG_DATA_HOME:-$HOME/.local/share}/shinrai/soloist/soloist"
+port=24879   # must match soloistUrl in ~/.config/quickshell/shinrai/config/Config.qml
+
+# shellcheck disable=SC1090
+[ -f "$env_file" ] && . "$env_file"
+
+if [ -z "${SOLOIST_API_KEY:-}" ]; then
+    echo "shinrai-soloist: no SOLOIST_API_KEY in $env_file yet (see \"Music\" in the README)" >&2
+    exit 78   # the service doesn't retry on this code
+fi
+
+if [ ! -x "$exe" ]; then
+    SHINRAI_SOLOIST_NO_RESTART=1 "$HOME/.local/bin/shinrai-soloist-update" || exit 1
+fi
+
+"$exe" --device-name "${SOLOIST_DEVICE_NAME:-Shinrai}" --api-key "$SOLOIST_API_KEY" \
+    --ws "127.0.0.1:$port" "$@"
+code=$?
+
+# Expired build: update once and start again (not twice, in case the new one is expired too).
+if [ "$code" -eq 10 ] && [ -z "${SHINRAI_SOLOIST_RETRIED:-}" ]; then
+    echo "shinrai-soloist: this Soloist build has expired, downloading the current one" >&2
+    if SHINRAI_SOLOIST_NO_RESTART=1 "$HOME/.local/bin/shinrai-soloist-update"; then
+        export SHINRAI_SOLOIST_RETRIED=1
+        exec "$0" "$@"
+    fi
+fi
+exit "$code"

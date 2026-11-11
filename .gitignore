@@ -1,0 +1,12 @@
+# Real Spotify keys stay local (spotify.env.example is tracked)
+spotify.env
+
+# Installer backups
+*.bak-*
+
+# OS / editor junk
+Thumbs.db
+desktop.ini
+.DS_Store
+*.swp
+*~
